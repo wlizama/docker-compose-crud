@@ -1,16 +1,16 @@
-import os
 from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
 from config import Config
-from routes.user_routes import user_routes
 
-app = Flask(__name__)
-app.config.from_object(Config)
+db = SQLAlchemy()
 
-# Establecer el puerto a través de la variable de entorno FLASK_RUN_PORT
-port = int(os.environ.get('FLASK_RUN_PORT', 5003))
+def create_app():
+    app = Flask(__name__)
+    app.config.from_object(Config)
+    
+    db.init_app(app)
 
-app.register_blueprint(user_routes)
+    from routes.user_routes import user_routes
+    app.register_blueprint(user_routes)
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=port)
-
+    return app

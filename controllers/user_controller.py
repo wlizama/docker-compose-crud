@@ -1,4 +1,5 @@
-from models.user import User, db
+from main import db
+from models.user import User
 
 class UserController:
     def get_all_users(self):

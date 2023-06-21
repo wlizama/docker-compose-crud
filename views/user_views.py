@@ -1,10 +1,9 @@
 from flask import jsonify, request
-# from controllers.user_controller import UserController
+from controllers.user_controller import UserController  # importa la clase UserController desde user_controller.py
 
-class UserController:
+class UserView:  # cambia el nombre de la clase a UserView para evitar conflictos de nombres
     def __init__(self):
-        pass
-        # self.controller = UserController()
+        self.controller = UserController()  # inicializa UserController desde user_controller.py
 
     def get_all_users(self):
         users = self.controller.get_all_users()

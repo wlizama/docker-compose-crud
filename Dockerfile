@@ -12,4 +12,4 @@ ENV FLASK_RUN_PORT=5003
 
 COPY . .
 
-CMD ["python", "main.py"]
+CMD ["flask", "run", "--host=0.0.0.0"]

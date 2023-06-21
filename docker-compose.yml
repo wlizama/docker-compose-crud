@@ -7,6 +7,7 @@ services:
       dockerfile: Dockerfile
     environment:
       - FLASK_RUN_PORT=5003
+      - FLASK_APP=main:create_app
     ports:
       - '5003:5003'
     volumes:
