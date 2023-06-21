@@ -1,34 +1,34 @@
-version: '3.7'
+version: '3.9'
 services:
-  db:
-    image: mysql:5.7
-    restart: always
-    environment:
-      MYSQL_DATABASE: 'mydatabase'
-      MYSQL_USER: 'user'
-      MYSQL_PASSWORD: 'password'
-      MYSQL_ROOT_PASSWORD: 'password'
-    volumes:
-      - db_data:/var/lib/mysql
-    ports:
-      - "3306:3306"
-    networks:
-      - backend-network
-
   web:
-    build: .
-    command: flask run --host=0.0.0.0
-    volumes:
-      - .:/app
+    container_name: docker-compose-crud-web
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
-      - "5000:5000"
+      - '5001:5000'
+    volumes:
+      - "docker-compose-crud-web-data:/app"
     depends_on:
       - db
     networks:
-      - backend-network
-
+      - docker-compose-crud-network
+  db:
+    container_name: docker-compose-crud-db
+    image: postgres
+    restart: always
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydatabase
+    volumes:
+      - "docker-compose-crud-db-data:/var/lib/postgresql/data"
+    networks:
+      - docker-compose-crud-network
 volumes:
-  db_data:
-
+  docker-compose-crud-db-data:
+  docker-compose-crud-web-data:
 networks:
-  backend_network:
+  docker-compose-crud-network:
