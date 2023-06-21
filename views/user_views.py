@@ -3,7 +3,8 @@ from flask import jsonify, request
 
 class UserController:
     def __init__(self):
-        self.controller = UserController()
+        pass
+        # self.controller = UserController()
 
     def get_all_users(self):
         users = self.controller.get_all_users()
