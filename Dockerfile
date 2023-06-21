@@ -1,6 +1,6 @@
 FROM python:3.9
 
-WORKDIR /app
+WORKDIR ./
 
 COPY requirements.txt .
 
@@ -12,4 +12,4 @@ ENV FLASK_RUN_PORT=5003
 
 COPY . .
 
-CMD ["flask", "run", "--host=0.0.0.0"]
+CMD ["python", "app.py", "--host=0.0.0.0"]

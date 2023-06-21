@@ -7,31 +7,30 @@ services:
       dockerfile: Dockerfile
     environment:
       - FLASK_RUN_PORT=5003
-      - FLASK_APP=main:create_app
     ports:
       - '5003:5003'
     volumes:
       - "docker-compose-crud-web-data:/app"
-    depends_on:
-      - db
     networks:
       - docker-compose-crud-network
-  db:
-    container_name: docker-compose-crud-db
-    image: postgres
-    restart: always
-    ports:
-      - '5432:5432'
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: mydatabase
-    volumes:
-      - "docker-compose-crud-db-data:/var/lib/postgresql/data"
-    networks:
-      - docker-compose-crud-network
+    # depends_on:
+    #   - db
+  # db:
+  #   container_name: docker-compose-crud-db
+  #   image: postgres
+  #   restart: always
+  #   ports:
+  #     - '5432:5432'
+  #   environment:
+  #     POSTGRES_USER: postgres
+  #     POSTGRES_PASSWORD: password
+  #     POSTGRES_DB: mydatabase
+  #   volumes:
+  #     - "docker-compose-crud-db-data:/var/lib/postgresql/data"
+  #   networks:
+  #     - docker-compose-crud-network
 volumes:
-  docker-compose-crud-db-data:
+  # docker-compose-crud-db-data:
   docker-compose-crud-web-data:
 networks:
   docker-compose-crud-network:
