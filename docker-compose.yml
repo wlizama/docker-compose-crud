@@ -13,24 +13,24 @@ services:
       - "docker-compose-crud-web-data:/app"
     networks:
       - docker-compose-crud-network
-    # depends_on:
-    #   - db
-  # db:
-  #   container_name: docker-compose-crud-db
-  #   image: postgres
-  #   restart: always
-  #   ports:
-  #     - '5432:5432'
-  #   environment:
-  #     POSTGRES_USER: postgres
-  #     POSTGRES_PASSWORD: password
-  #     POSTGRES_DB: mydatabase
-  #   volumes:
-  #     - "docker-compose-crud-db-data:/var/lib/postgresql/data"
-  #   networks:
-  #     - docker-compose-crud-network
+    depends_on:
+      - db
+  db:
+    container_name: docker-compose-crud-db
+    image: postgres
+    restart: always
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: dc-crud-db
+    volumes:
+      - "docker-compose-crud-db-data:/var/lib/postgresql/data"
+    networks:
+      - docker-compose-crud-network
 volumes:
-  # docker-compose-crud-db-data:
+  docker-compose-crud-db-data:
   docker-compose-crud-web-data:
 networks:
   docker-compose-crud-network:
