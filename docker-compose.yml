@@ -5,8 +5,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    environment:
-      - FLASK_RUN_PORT=5003
     ports:
       - '5003:5003'
     volumes:
