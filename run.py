@@ -2,7 +2,7 @@ import os
 from flask import Flask
 from flask_restful import Api
 from database import db, DATABASE_URI
-from users.resources import UserResource, UserListResource
+from app.users.resources import UserResource, UserListResource
 
 PORT = int(os.environ.get('FLASK_RUN_PORT', 5000))
 

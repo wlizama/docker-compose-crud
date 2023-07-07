@@ -17,4 +17,4 @@ ENV POSTGRES_PORT=5432
 
 COPY . .
 
-CMD ["python", "app.py", "--host=0.0.0.0"]
+CMD ["python", "run.py", "--host=0.0.0.0"]
