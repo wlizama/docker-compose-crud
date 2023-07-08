@@ -8,8 +8,10 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
     email = db.Column(db.String)
+    # direction = db.Column(db.String)
     # created_at = db.Column(TIMESTAMP(timezone=True),
     #                     nullable=False, server_default=text('now()'))
+    # create_at = Column(DateTime, default=func.now())
 
     def __repr__(self):
        return f"<User(name='{self.name}', email='{self.email}')>"

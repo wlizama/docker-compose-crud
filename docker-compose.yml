@@ -10,7 +10,7 @@ services:
     ports:
       - '5003:5003'
     volumes:
-      - .:/app
+      - .:/docker-compose-crud
     networks:
       - docker-compose-crud-network
     depends_on:

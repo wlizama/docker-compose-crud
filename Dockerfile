@@ -1,6 +1,6 @@
 FROM python:3.9
 
-WORKDIR ./
+WORKDIR /docker-compose-crud
 
 COPY requirements.txt .
 
@@ -14,7 +14,7 @@ ENV POSTGRES_PASSWORD=password
 ENV POSTGRES_DB=dc-crud-db
 ENV POSTGRES_HOST=host.docker.internal
 ENV POSTGRES_PORT=5432
-ENV PYTHONPATH=/app
+ENV PYTHONPATH=/docker-compose-crud
 
 COPY . .
 
