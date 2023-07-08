@@ -5,12 +5,14 @@ from .models import User
 resource_fields = {
     'id': fields.Integer,
     'name': fields.String,
-    'email': fields.String
+    'email': fields.String,
+    'age': fields.Integer
 }
 
 parser = reqparse.RequestParser()
 parser.add_argument('name', required=True, help="Name cannot be blank!")
 parser.add_argument('email', required=True, help="Email cannot be blank!")
+parser.add_argument('age', required=True, help="Age cannot be blank!")
 
 class UserResource(Resource):
     @marshal_with(resource_fields)
@@ -24,6 +26,7 @@ class UserResource(Resource):
         user = User.query.get_or_404(user_id)
         user.name = args['name']
         user.email = args['email']
+        user.age = args['age']
         db.session.commit()
         return user
 
@@ -42,7 +45,7 @@ class UserListResource(Resource):
     @marshal_with(resource_fields)
     def post(self):
         args = parser.parse_args()
-        new_user = User(name=args['name'], email=args['email'])
+        new_user = User(name=args['name'], email=args['email'],  age=args['age'])
         db.session.add(new_user)
         db.session.commit()
         return new_user, 201

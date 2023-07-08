@@ -14,7 +14,7 @@ docker logs docker-compose-crud-db
 docker exec -it docker-compose-crud-web bash
 
 # Para inicializar Alembic, ejecuta este comando:
-docker-compose exec docker-compose-crud-web alembic init alembic
+docker-compose web alembic init alembic
 
 # Para copiar archivos alembic desde el contenedor a la máquina local 
 docker cp docker-compose-crud-web:/alembic ./alembic
@@ -23,13 +23,10 @@ docker cp docker-compose-crud-web:/alembic.ini ./alembic.ini
 # Generación de una migración
 docker-compose exec web alembic revision --autogenerate -m "Added new column"
 #Aplicar las migraciones
-docker-compose exec web alembic upgrade head -x
-
+docker-compose exec web alembic upgrade head
 
 # ejecutar comandos en bash del container
 docker-compose exec web bash -c "alembic revision --autogenerate -m 'Added new column to users table'"
-
-
 
 # Display the current revision for a database: 
 alembic current
@@ -47,3 +44,9 @@ alembic upgrade +1
 alembic upgrade head --sql
 # Reset the database: 
 alembic downgrade base && alembic upgrade head
+
+
+## flask migrate as commands
+flask db init
+flask db migrate -m "Initial migration"
+flask db upgrade
