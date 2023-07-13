@@ -12,7 +12,7 @@ user_model = ns.model('User', {
     'age': fields.Integer(description='Edad de usuario'),
 })
 
-@ns.route('/users')
+@ns.route('/')
 class UserListResource(Resource):
     @ns.marshal_list_with(user_model)
     def get(self):
@@ -28,7 +28,7 @@ class UserListResource(Resource):
         db.session.commit()
         return new_user, 201
 
-@ns.route('/users/<int:user_id>')
+@ns.route('/<int:user_id>')
 @ns.response(404, 'User not found')
 @ns.param('user_id', 'The user identifier')
 class UserResource(Resource):

@@ -4,6 +4,7 @@ from flask_restx import Api
 from flask_migrate import Migrate
 from database import db, DATABASE_URI
 from app.users.views import ns as users_ns
+from app.posts.views import ns as posts_ns
 
 PORT = int(os.environ.get('FLASK_RUN_PORT', 5000))
 migrate = Migrate()
@@ -13,9 +14,11 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URI
     api = Api(app, version='1.0', title='User API',
               description='A simple User API',
+              prefix='/api'
     )
     
-    api.add_namespace(users_ns, path='/api')
+    api.add_namespace(users_ns, path='/users')
+    api.add_namespace(posts_ns, path='/posts')
 
     db.init_app(app)
     migrate.init_app(app, db)

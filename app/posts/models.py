@@ -10,14 +10,5 @@ class Post(db.Model):
     # Relationship to posts
     user = db.relationship('User', backref=db.backref('posts', lazy=True))
 
-    def to_dict(self):
-        return {
-            'id': self.id,
-            'title': self.title,
-            'content': self.content,
-            'user_id': self.user_id,
-            'user': self.user.to_dict()
-        }
-
     def __repr__(self):
         return f"<Post(title='{self.title}')>"

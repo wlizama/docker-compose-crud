@@ -1,43 +1,40 @@
-from flask_restful import Resource, fields, marshal_with, reqparse
+from flask import request
+from flask_restx import Namespace, Resource, fields
 from .models import Post
-from app.users.models import User
 from database import db
 
-resource_fields = {
-    'id': fields.Integer,
-    'title': fields.String,
-    'content': fields.String,
-    'user_id': fields.Integer
-}
+ns = Namespace('posts', description='Operaciones de posts')
 
-parser = reqparse.RequestParser()
-parser.add_argument('title', required=True, help="Title cannot be blank!")
-parser.add_argument('content', required=True, help="Content cannot be blank!")
-parser.add_argument('user_id', required=True, help="Id is required")
+post_model = ns.model('Post', {
+    'id': fields.Integer(readOnly=True, description='Identificador único del Post'),
+    'title': fields.String(required=True, description='Titulo del Post'),
+    'content': fields.String(required=True, description='Contenido del Post'),
+    'user_id': fields.Integer(required=True, description='Identificador único del usuario'),
+})
 
+@ns.route('/')
 class PostListResource(Resource):
-    @marshal_with(resource_fields)
+    @ns.marshal_list_with(post_model)
     def get(self):
         posts = Post.query.all()
         return posts
-        # return {'posts': [post.to_dict() for post in posts]}
 
-    @marshal_with(resource_fields)
+    @ns.expect(post_model)
+    @ns.marshal_with(post_model, code=201)
     def post(self):
-        args = parser.parse_args()
-        user_id = args['user_id']
-        User.query.filter_by(id=user_id).first_or_404(description='No user found!')
-        new_post = Post(title=args['title'], content=args['content'], user_id=user_id)
+        post_data = request.json
+        new_post = Post(title=post_data['title'], content=post_data['content'], user_id=post_data['user_id'])
         db.session.add(new_post)
         db.session.commit()
         return new_post, 201
-
+    
+@ns.route('/<int:post_id>')
+@ns.response(404, 'User not found')
+@ns.param('post_id', 'The post identifier')
 class PostResource(Resource):
+    @ns.marshal_with(post_model)
     def get(self, post_id):
-        post = Post.query.get(post_id)
-        if post is None:
-            return {'message': 'Post not found'}, 404
-        return post.to_dict()
+        return Post.query.get_or_404(post_id, description='no encontrado')
 
     def put(self, post_id):
         # Código para actualizar un post existente ...
