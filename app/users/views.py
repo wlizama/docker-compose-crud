@@ -38,8 +38,8 @@ class UserResource(Resource):
 
     @ns.expect(user_model)
     @ns.marshal_with(user_model)
-    def put(self, id):
-        user = User.query.get_or_404(id)
+    def put(self, user_id):
+        user = User.query.get_or_404(user_id)
         user_data = request.json
         user.name = user_data['name']
         user.email = user_data['email']
@@ -48,8 +48,8 @@ class UserResource(Resource):
         return user
 
     @ns.response(204, 'User deleted')
-    def delete(self, id):
-        user = User.query.get_or_404(id)
+    def delete(self, user_id):
+        user = User.query.get_or_404(user_id)
         db.session.delete(user)
         db.session.commit()
         return '', 204
