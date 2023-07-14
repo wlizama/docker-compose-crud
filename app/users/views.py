@@ -1,5 +1,6 @@
 from flask import request
 from flask_restx import Namespace, Resource, fields
+from app.auth.decorators import jwt_and_doc
 from database import db
 from .models import User
 
@@ -14,6 +15,8 @@ user_model = ns.model('User', {
 
 @ns.route('')
 class UserListResource(Resource):
+    # method_decorators = [jwt_required()]  # Se aplica el decorador a todos los métodos de la clase.
+    @jwt_and_doc
     @ns.marshal_list_with(user_model)
     def get(self):
         users = User.query.all()

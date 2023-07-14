@@ -1,26 +1,25 @@
 import os
 from flask import Flask
-from flask_restx import Api
-from flask_migrate import Migrate
 from database import db, DATABASE_URI
+from extensions import api, jwt, migrate
 from app.users.views import ns as users_ns
 from app.posts.views import ns as posts_ns
+from app.auth.views import ns as auth_ns
 
 PORT = int(os.environ.get('FLASK_RUN_PORT', 5000))
-migrate = Migrate()
 
 def create_app():
     app = Flask(__name__)
     app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URI
-    api = Api(app, version='1.0', title='User API',
-              description='A simple User API',
-              prefix='/api'
-    )
+    app.config['JWT_SECRET_KEY'] = 'super-secret'  # Cambiar esto!
     
     api.add_namespace(users_ns, path='/users')
     api.add_namespace(posts_ns, path='/posts')
+    api.add_namespace(auth_ns, path='/auth')
 
     db.init_app(app)
+    api.init_app(app)
+    jwt.init_app(app)
     migrate.init_app(app, db)
 
     return app
