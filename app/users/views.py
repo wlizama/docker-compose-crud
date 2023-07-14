@@ -12,7 +12,7 @@ user_model = ns.model('User', {
     'age': fields.Integer(description='Edad de usuario'),
 })
 
-@ns.route('/')
+@ns.route('')
 class UserListResource(Resource):
     @ns.marshal_list_with(user_model)
     def get(self):

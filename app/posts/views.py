@@ -12,7 +12,7 @@ post_model = ns.model('Post', {
     'user_id': fields.Integer(required=True, description='Identificador único del usuario'),
 })
 
-@ns.route('/')
+@ns.route('')
 class PostListResource(Resource):
     @ns.marshal_list_with(post_model)
     def get(self):
